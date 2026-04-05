@@ -1,6 +1,11 @@
 # GitMcp.Core
 
-Shared construction of `git` CLI argument lists for [**git-mcp**](https://github.com/KarataevDmitry/git-mcp) and **Cascade IDE** (see ADR 0019 in the cascade-ide repo).
+Shared construction of `git` CLI argument lists for **git-mcp** and **Cascade IDE** (ADR 0019 in cascade-ide).
+
+## Remotes (политика)
+
+- **`origin`** — GitLab (`Krawler/git-mcp-core`), канон для разработки и субмодуля в meta-repo `open`.
+- **`github`** — зеркало на GitHub (публичная копия; `git push github main` после согласования с GitLab).
 
 ## Layout
 
@@ -9,7 +14,7 @@ Shared construction of `git` CLI argument lists for [**git-mcp**](https://github
 
 ## Consumers
 
-Add a **project reference** to `GitMcp.Core.csproj`, or clone this repo **next to** git-mcp / IDE (e.g. as a **git submodule** in a meta-repo).
+Add a **project reference** to `GitMcp.Core.csproj`, or use this repo as a **git submodule** next to git-mcp / IDE (as in `open`).
 
 ## Build
 
