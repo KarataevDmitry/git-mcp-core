@@ -61,9 +61,12 @@ public static class GitCommandBuilder
     public static IReadOnlyList<string> Commit(string message) => ["commit", "-m", message];
 
     /// <param name="defaultOriginWhenRemoteEmpty">Если true и remote пуст — подставить <c>origin</c> (поведение MCP git_push).</param>
-    public static IReadOnlyList<string> Push(string? remote, string? branch, bool defaultOriginWhenRemoteEmpty)
+    /// <param name="dryRun">Если true — <c>git push --dry-run</c> (без отправки объектов).</param>
+    public static IReadOnlyList<string> Push(string? remote, string? branch, bool defaultOriginWhenRemoteEmpty, bool dryRun = false)
     {
         var list = new List<string> { "push" };
+        if (dryRun)
+            list.Add("--dry-run");
         string? r = string.IsNullOrWhiteSpace(remote) ? null : remote.Trim();
         if (r is null && defaultOriginWhenRemoteEmpty)
             r = "origin";
@@ -74,11 +77,14 @@ public static class GitCommandBuilder
         return list;
     }
 
-    public static GitArgsResult Fetch(bool all, bool prune, string? remote)
+    /// <param name="dryRun">Если true — <c>git fetch --dry-run</c> (что бы сделал fetch без обновления refs).</param>
+    public static GitArgsResult Fetch(bool all, bool prune, string? remote, bool dryRun = false)
     {
         if (all && !string.IsNullOrWhiteSpace(remote))
             return GitArgsResult.Fail("git_fetch: do not pass remote when all=true.");
         var list = new List<string> { "fetch" };
+        if (dryRun)
+            list.Add("--dry-run");
         if (all)
         {
             list.Add("--all");
@@ -95,13 +101,16 @@ public static class GitCommandBuilder
         return GitArgsResult.Ok(list);
     }
 
-    public static GitArgsResult Pull(string? remote, string? branch, bool ffOnly)
+    /// <param name="dryRun">Если true — <c>git pull --dry-run</c> (без изменения рабочей копии; требуется Git 2.27+).</param>
+    public static GitArgsResult Pull(string? remote, string? branch, bool ffOnly, bool dryRun = false)
     {
         var pullRem = remote?.Trim() ?? "";
         var pullBr = branch?.Trim() ?? "";
         if (string.IsNullOrWhiteSpace(pullRem) != string.IsNullOrWhiteSpace(pullBr))
             return GitArgsResult.Fail("git_pull: specify both remote and branch, or neither (pull upstream).");
         var list = new List<string> { "pull" };
+        if (dryRun)
+            list.Add("--dry-run");
         if (ffOnly)
             list.Add("--ff-only");
         if (!string.IsNullOrWhiteSpace(pullRem))
