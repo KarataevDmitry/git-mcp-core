@@ -31,6 +31,41 @@ public static class GitCommandBuilder
         return list;
     }
 
+    /// <summary>
+    /// Список изменённых путей (name-only) для preflight-классификации шума.
+    /// </summary>
+    public static IReadOnlyList<string> DiffNameOnly(bool staged, bool ignoreWhitespace = false, bool ignoreCrAtEol = false)
+    {
+        var list = new List<string> { "diff", "--name-only" };
+        if (staged)
+            list.Add("--staged");
+        if (ignoreWhitespace)
+            list.Add("-w");
+        if (ignoreCrAtEol)
+            list.Add("--ignore-cr-at-eol");
+        return list;
+    }
+
+    /// <summary>
+    /// Патч одного файла (для эвристик BOM-only и диагностики preflight).
+    /// </summary>
+    public static GitArgsResult DiffPatchForPath(bool staged, string path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+            return GitArgsResult.Fail("git_preflight: file path is required for DiffPatchForPath.");
+        var list = new List<string> { "diff" };
+        if (staged)
+            list.Add("--staged");
+        list.Add("--");
+        list.Add(path.Trim());
+        return GitArgsResult.Ok(list);
+    }
+
+    /// <summary>
+    /// Безопасная нормализация line endings по .gitattributes.
+    /// </summary>
+    public static IReadOnlyList<string> AddRenormalize() => ["add", "--renormalize", "."];
+
     public static int ClampLogCount(int n)
     {
         if (n <= 0)
