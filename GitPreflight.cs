@@ -7,6 +7,7 @@ public static class GitPreflight
 {
     public sealed record Report(
         IReadOnlyList<string> ChangedFiles,
+        IReadOnlyList<string> UntrackedFiles,
         IReadOnlyList<string> SemanticFiles,
         IReadOnlyList<string> WhitespaceOnlyFiles,
         IReadOnlyList<string> EolOnlyFiles,
@@ -15,11 +16,13 @@ public static class GitPreflight
 
     public static Report BuildReport(
         IEnumerable<string> changed,
+        IEnumerable<string> untracked,
         IEnumerable<string> ignoreCrAtEol,
         IEnumerable<string> ignoreWhitespace,
         IReadOnlyDictionary<string, string>? patchesByFile = null)
     {
         var changedSet = ToOrderedSet(changed);
+        var untrackedSet = ToOrderedSet(untracked);
         var ignoreCrSet = ToOrderedSet(ignoreCrAtEol);
         var ignoreWsSet = ToOrderedSet(ignoreWhitespace);
 
@@ -63,6 +66,7 @@ public static class GitPreflight
 
         return new Report(
             ChangedFiles: changedSet.ToArray(),
+            UntrackedFiles: untrackedSet.ToArray(),
             SemanticFiles: semantic.ToArray(),
             WhitespaceOnlyFiles: whitespaceOnly.ToArray(),
             EolOnlyFiles: eolOnly.ToArray(),

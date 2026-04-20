@@ -66,6 +66,11 @@ public static class GitCommandBuilder
     /// </summary>
     public static IReadOnlyList<string> AddRenormalize() => ["add", "--renormalize", "."];
 
+    /// <summary>
+    /// Показать только untracked пути (без ignored) для preflight.
+    /// </summary>
+    public static IReadOnlyList<string> ListUntracked() => ["ls-files", "--others", "--exclude-standard"];
+
     public static int ClampLogCount(int n)
     {
         if (n <= 0)
