@@ -9,16 +9,16 @@
     <AssemblyName>GitMcp.Core</AssemblyName>
     <!-- NuGet package id; Trusted Publishing привязывай к репо https://github.com/KarataevDmitry/git-mcp-core -->
     <PackageId>AIGuiders.GitMcp.Core</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Authors>Dmitry Karataev; AIGuiders</Authors>
     <Company>AIGuiders</Company>
-    <Description>Shared git CLI argv builders for git-mcp and Cascade IDE (ADR 0019).</Description>
+    <Description>Shared git CLI argv builders for git-mcp and Cascade IDE (ADR 0019). No MCP/Avalonia dependency.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/KarataevDmitry/git-mcp-core</PackageProjectUrl>
     <RepositoryUrl>https://github.com/KarataevDmitry/git-mcp-core.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>git;mcp;modelcontextprotocol;cascade-ide;git-mcp</PackageTags>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReadmeFile>PACKAGE_README.md</PackageReadmeFile>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="PACKAGE_README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
